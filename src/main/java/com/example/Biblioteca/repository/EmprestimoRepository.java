@@ -5,6 +5,8 @@ import com.example.Biblioteca.util.Conexao;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public class EmprestimoRepository {
@@ -29,5 +31,22 @@ public class EmprestimoRepository {
             }
         }
         throw new RuntimeException("Cadastro não foi realizado!");
+    }
+
+    public List<Emprestimo> listarEmprestimos() throws SQLException{
+        String query = "SELECT id, livro_id, usuario_id, data_emprestimo, data_devolucao FROM emprestimo";
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(query)){
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                int id = rs.getInt("id");
+                int idLivro = rs.getInt("livro_id");
+                int idUsuario = rs.getInt("usuario_id");
+                LocalDate dataEmprestimo = LocalDate.parse(rs.getDate("data_emprestimo"));
+            }
+        }
     }
 }
