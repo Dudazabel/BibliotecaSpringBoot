@@ -1,5 +1,7 @@
 package com.example.Biblioteca.controller;
 
+import com.example.Biblioteca.dto.eprestimoDTO.EmprestimoRequisicaoDTO;
+import com.example.Biblioteca.dto.eprestimoDTO.EmprestimoRespostaDTO;
 import com.example.Biblioteca.model.Emprestimo;
 import com.example.Biblioteca.service.EmprestimoService;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +20,9 @@ public class EmprestimoController {
     }
 
     @PostMapping
-    public Emprestimo postEmprestimo(@RequestBody Emprestimo emprestimo){
+    public EmprestimoRespostaDTO postEmprestimo(@RequestBody EmprestimoRequisicaoDTO emprestimoDTO){
         try{
-            return service.cadastrarEmprestimo(emprestimo);
+            return service.cadastrarEmprestimo(emprestimoDTO);
 
         }catch (SQLException e){
             throw new RuntimeException(e.getMessage());
@@ -28,7 +30,7 @@ public class EmprestimoController {
     }
 
     @GetMapping
-    public List<Emprestimo> getlistaEmprestimo(){
+    public List<EmprestimoRespostaDTO> getlistaEmprestimo(){
         try{
             return service.listarEmprestimo();
         }catch (SQLException e){
@@ -37,7 +39,7 @@ public class EmprestimoController {
     }
 
     @GetMapping("/{id}")
-    public Emprestimo getListaEmprestimoId(@PathVariable int id){
+    public EmprestimoRespostaDTO getListaEmprestimoId(@PathVariable int id){
         try{
             return service.listarEmprestimoId(id);
         }catch (SQLException e){
@@ -45,10 +47,10 @@ public class EmprestimoController {
         }
     }
 
-    @PostMapping("/{id}")
-    public void getAtualizarEmprestimo(@PathVariable int id, @RequestBody Emprestimo emprestimo){
+    @PutMapping("/{id}")
+    public void getAtualizarEmprestimo(@PathVariable int id, @RequestBody EmprestimoRequisicaoDTO emprestimoDTO){
         try{
-            service.atualizarEmprestimo(id, emprestimo);
+            service.atualizarEmprestimo(id, emprestimoDTO);
         }catch (SQLException e){
             throw new RuntimeException(e.getMessage());
         }
@@ -64,9 +66,9 @@ public class EmprestimoController {
     }
 
     @PutMapping("/{id}/devolucao")
-    public void registrarDevolucao(@PathVariable int id, @RequestBody Emprestimo emprestimo){
+    public void registrarDevolucao(@PathVariable int id, @RequestBody EmprestimoRequisicaoDTO emprestimoDTO){
         try {
-            service.registrarDataDevolucao(id, emprestimo);
+            service.registrarDataDevolucao(id, emprestimoDTO);
         }catch (SQLException e){
             throw new RuntimeException(e.getMessage());
         }

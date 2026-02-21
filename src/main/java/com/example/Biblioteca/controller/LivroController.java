@@ -1,5 +1,7 @@
 package com.example.Biblioteca.controller;
 
+import com.example.Biblioteca.dto.livroDTO.LivroRequisicaoDTO;
+import com.example.Biblioteca.dto.livroDTO.LivroRespostaDTO;
 import com.example.Biblioteca.model.Livro;
 import com.example.Biblioteca.service.LivroService;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +20,9 @@ public class LivroController {
     }
 
     @PostMapping
-    public Livro postLivro (@RequestBody Livro livro) {
+    public LivroRespostaDTO postLivro (@RequestBody LivroRequisicaoDTO livroDTO) {
         try{
-            return service.cadastrarLivro(livro);
+            return service.cadastrarLivro(livroDTO);
 
         }catch (SQLException e){
             throw new RuntimeException(e.getMessage());
@@ -28,7 +30,7 @@ public class LivroController {
     }
 
     @GetMapping
-    public List<Livro> getListaLivro(){
+    public List<LivroRespostaDTO> getListaLivro(){
         try{
             return service.listaLivros();
         }catch (SQLException e){
@@ -37,7 +39,7 @@ public class LivroController {
     }
 
     @GetMapping("/{id}")
-    public Livro getListaLivroID(@PathVariable int id){
+    public LivroRespostaDTO getListaLivroID(@PathVariable int id){
         try{
             return service.listaLivroID(id);
         }catch (SQLException e){
@@ -46,9 +48,9 @@ public class LivroController {
     }
 
     @PutMapping("/{id}")
-    public void atualizarLivro(@PathVariable int id, @RequestBody Livro livro){
+    public void atualizarLivro(@PathVariable int id, @RequestBody LivroRequisicaoDTO livroDTO){
         try{
-            service.atualizarLivro(livro, id);
+            service.atualizarLivro(livroDTO, id);
         }catch (SQLException e){
             throw new RuntimeException(e.getMessage());
         }

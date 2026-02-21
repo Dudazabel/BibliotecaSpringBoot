@@ -1,35 +1,43 @@
 package com.example.Biblioteca.service;
 
+import com.example.Biblioteca.dto.usuarioDTO.UsuarioRequisicaoDTO;
+import com.example.Biblioteca.dto.usuarioDTO.UsuarioRespostaDTO;
+import com.example.Biblioteca.mapper.UsuarioMapper;
 import com.example.Biblioteca.model.Usuario;
 import com.example.Biblioteca.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UsuarioService {
 
     private final UsuarioRepository repository;
+    private final UsuarioMapper mapper;
 
-    public UsuarioService(UsuarioRepository repository){
+    public UsuarioService(UsuarioRepository repository, UsuarioMapper mapper){
         this.repository = repository;
+        this.mapper = mapper;
     }
 
-    public Usuario cadastrarUsuario(Usuario usuario) throws SQLException{
-        return repository.cadastrarUsuario(usuario);
+    public UsuarioRespostaDTO cadastrarUsuario(UsuarioRequisicaoDTO usuarioDTO) throws SQLException{
+        Usuario usuario = mapper.DTOParaEntidade(usuarioDTO);
+        Usuario usuarioSalvo = repository.cadastrarUsuario(usuario);
+        return mapper.EntidadeParaDTO(usuarioSalvo);
     }
 
-    public List<Usuario> listarUsuarios() throws SQLException{
-        return repository.listarUsuarios();
+    public List<UsuarioRespostaDTO> listarUsuarios() throws SQLException{
+        return mapper.EntidadeParaDTOLista(repository.listarUsuarios());
     }
 
-    public Usuario listaUsuarioID(int id) throws SQLException{
-        return repository.listaUsuarioID(id);
+    public UsuarioRespostaDTO listaUsuarioID(int id) throws SQLException{
+        return mapper.EntidadeParaDTO(repository.listaUsuarioID(id));
     }
 
-    public void atualizarUsuario(Usuario usuario, int id) throws SQLException{
-        usuario.setId(id);
+    public void atualizarUsuario(UsuarioRequisicaoDTO usuarioDTO, int id) throws SQLException{
+        Usuario usuario = mapper.DTOParaEntidade(usuarioDTO);
         repository.atualizarUsuario(usuario, id);
     }
 

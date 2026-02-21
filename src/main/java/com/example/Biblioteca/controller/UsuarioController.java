@@ -1,5 +1,7 @@
 package com.example.Biblioteca.controller;
 
+import com.example.Biblioteca.dto.usuarioDTO.UsuarioRequisicaoDTO;
+import com.example.Biblioteca.dto.usuarioDTO.UsuarioRespostaDTO;
 import com.example.Biblioteca.model.Usuario;
 import com.example.Biblioteca.repository.UsuarioRepository;
 import com.example.Biblioteca.service.UsuarioService;
@@ -19,16 +21,16 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public Usuario postUsuario(@RequestBody Usuario usuario){
+    public UsuarioRespostaDTO postUsuario(@RequestBody UsuarioRequisicaoDTO usuarioDTO){
         try{
-            return service.cadastrarUsuario(usuario);
+            return service.cadastrarUsuario(usuarioDTO);
         }catch(SQLException e){
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @GetMapping
-    public List<Usuario> getListaUsuarios(){
+    public List<UsuarioRespostaDTO> getListaUsuarios(){
         try{
             return service.listarUsuarios();
         }catch(SQLException e){
@@ -37,7 +39,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public Usuario getListaUsuarioID(@PathVariable int id){
+    public UsuarioRespostaDTO getListaUsuarioID(@PathVariable int id){
         try{
             return service.listaUsuarioID(id);
         }catch(SQLException e){
@@ -46,9 +48,9 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public void putUsuario(@PathVariable int id, @RequestBody Usuario usuario){
+    public void putUsuario(@PathVariable int id, @RequestBody UsuarioRequisicaoDTO usuarioDTO){
         try{
-            service.atualizarUsuario(usuario, id);
+            service.atualizarUsuario(usuarioDTO, id);
         }catch(SQLException e){
             throw new RuntimeException(e.getMessage());
         }

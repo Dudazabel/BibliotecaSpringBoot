@@ -1,5 +1,8 @@
 package com.example.Biblioteca.service;
 
+import com.example.Biblioteca.dto.eprestimoDTO.EmprestimoRequisicaoDTO;
+import com.example.Biblioteca.dto.eprestimoDTO.EmprestimoRespostaDTO;
+import com.example.Biblioteca.mapper.EmprestimoMapper;
 import com.example.Biblioteca.model.Emprestimo;
 import com.example.Biblioteca.repository.EmprestimoRepository;
 import org.springframework.stereotype.Service;
@@ -11,24 +14,30 @@ import java.util.List;
 public class EmprestimoService {
 
     private final EmprestimoRepository repository;
+    private final EmprestimoMapper mapper;
 
-    public EmprestimoService (EmprestimoRepository repository){
+    public EmprestimoService (EmprestimoRepository repository, EmprestimoMapper mapper){
         this.repository = repository;
+        this.mapper = mapper;
     }
 
-    public Emprestimo cadastrarEmprestimo(Emprestimo emprestimo) throws SQLException {
-        return repository.cadastrarEmprestimo(emprestimo);
+    public EmprestimoRespostaDTO cadastrarEmprestimo(EmprestimoRequisicaoDTO emprestimoDTO) throws SQLException {
+        Emprestimo emprestimo = mapper.DTOParaEntidade(emprestimoDTO);
+        Emprestimo emprestimoSalvo = repository.cadastrarEmprestimo(emprestimo);
+        return mapper.EntidadeParaDTO(emprestimoSalvo);
     }
 
-    public List<Emprestimo> listarEmprestimo() throws SQLException{
-        return repository.listarEmprestimos();
+    public List<EmprestimoRespostaDTO> listarEmprestimo() throws SQLException{
+        List<Emprestimo> emprestimos = repository.listarEmprestimos();
+        return  mapper.EntidadeParaDTOLista(emprestimos);
     }
 
-    public Emprestimo listarEmprestimoId(int id) throws SQLException{
-        return repository.listarEmprestimoID(id);
+    public EmprestimoRespostaDTO listarEmprestimoId(int id) throws SQLException{
+        return mapper.EntidadeParaDTO(repository.listarEmprestimoID(id));
     }
 
-    public void atualizarEmprestimo(int id, Emprestimo emprestimo) throws SQLException{
+    public void atualizarEmprestimo(int id, EmprestimoRequisicaoDTO emprestimoDTO) throws SQLException{
+        Emprestimo emprestimo = mapper.DTOParaEntidade(emprestimoDTO);
         repository.atualizarEmprestimo(id, emprestimo);
     }
 
@@ -36,7 +45,8 @@ public class EmprestimoService {
         repository.deletarEmprestimo(id);
     }
 
-    public void registrarDataDevolucao(int id, Emprestimo emprestimo) throws SQLException{
+    public void registrarDataDevolucao(int id, EmprestimoRequisicaoDTO emprestimoDTO) throws SQLException{
+        Emprestimo emprestimo = mapper.DTOParaEntidade(emprestimoDTO);
         repository.registrarDevolucao(id, emprestimo);
     }
 }
