@@ -5,6 +5,7 @@ import com.example.Biblioteca.dto.usuarioDTO.UsuarioRespostaDTO;
 import com.example.Biblioteca.model.Usuario;
 import com.example.Biblioteca.repository.UsuarioRepository;
 import com.example.Biblioteca.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public UsuarioRespostaDTO postUsuario(@RequestBody UsuarioRequisicaoDTO usuarioDTO){
+    public UsuarioRespostaDTO postUsuario(@Valid @RequestBody UsuarioRequisicaoDTO usuarioDTO){
         try{
             return service.cadastrarUsuario(usuarioDTO);
         }catch(SQLException e){
@@ -48,7 +49,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public void putUsuario(@PathVariable int id, @RequestBody UsuarioRequisicaoDTO usuarioDTO){
+    public void putUsuario(@PathVariable int id, @Valid @RequestBody UsuarioRequisicaoDTO usuarioDTO){
         try{
             service.atualizarUsuario(usuarioDTO, id);
         }catch(SQLException e){

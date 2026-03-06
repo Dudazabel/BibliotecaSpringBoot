@@ -4,6 +4,7 @@ import com.example.Biblioteca.dto.livroDTO.LivroRequisicaoDTO;
 import com.example.Biblioteca.dto.livroDTO.LivroRespostaDTO;
 import com.example.Biblioteca.model.Livro;
 import com.example.Biblioteca.service.LivroService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ public class LivroController {
     }
 
     @PostMapping
-    public LivroRespostaDTO postLivro (@RequestBody LivroRequisicaoDTO livroDTO) {
+    public LivroRespostaDTO postLivro (@Valid @RequestBody LivroRequisicaoDTO livroDTO) {
         try{
             return service.cadastrarLivro(livroDTO);
 
@@ -48,7 +49,7 @@ public class LivroController {
     }
 
     @PutMapping("/{id}")
-    public void atualizarLivro(@PathVariable int id, @RequestBody LivroRequisicaoDTO livroDTO){
+    public void atualizarLivro(@PathVariable int id, @Valid @RequestBody LivroRequisicaoDTO livroDTO){
         try{
             service.atualizarLivro(livroDTO, id);
         }catch (SQLException e){

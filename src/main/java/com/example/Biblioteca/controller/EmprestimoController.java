@@ -4,6 +4,7 @@ import com.example.Biblioteca.dto.eprestimoDTO.EmprestimoRequisicaoDTO;
 import com.example.Biblioteca.dto.eprestimoDTO.EmprestimoRespostaDTO;
 import com.example.Biblioteca.model.Emprestimo;
 import com.example.Biblioteca.service.EmprestimoService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ public class EmprestimoController {
     }
 
     @PostMapping
-    public EmprestimoRespostaDTO postEmprestimo(@RequestBody EmprestimoRequisicaoDTO emprestimoDTO){
+    public EmprestimoRespostaDTO postEmprestimo(@Valid @RequestBody EmprestimoRequisicaoDTO emprestimoDTO){
         try{
             return service.cadastrarEmprestimo(emprestimoDTO);
 
@@ -48,7 +49,7 @@ public class EmprestimoController {
     }
 
     @PutMapping("/{id}")
-    public void getAtualizarEmprestimo(@PathVariable int id, @RequestBody EmprestimoRequisicaoDTO emprestimoDTO){
+    public void getAtualizarEmprestimo(@PathVariable int id, @Valid @RequestBody EmprestimoRequisicaoDTO emprestimoDTO){
         try{
             service.atualizarEmprestimo(id, emprestimoDTO);
         }catch (SQLException e){
@@ -66,7 +67,7 @@ public class EmprestimoController {
     }
 
     @PutMapping("/{id}/devolucao")
-    public void registrarDevolucao(@PathVariable int id, @RequestBody EmprestimoRequisicaoDTO emprestimoDTO){
+    public void registrarDevolucao(@PathVariable int id, @Valid @RequestBody EmprestimoRequisicaoDTO emprestimoDTO){
         try {
             service.registrarDataDevolucao(id, emprestimoDTO);
         }catch (SQLException e){
